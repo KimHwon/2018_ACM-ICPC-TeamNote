@@ -1,0 +1,28 @@
+ll dist (pii p1, pii p2) {
+    ll d1 = (p1.x - p2.x);
+    ll d2 = (p1.y - p2.y);
+    return d1*d1 + d2*d2;
+}
+bool cmp(const pii &u, const pii &v) {
+    int temp = ccw(p, u, v);
+    if (temp == 0) {
+        return dist(p, u) <= dist(p, v);
+    } else {
+        return temp == 1;
+    }
+}
+
+p = a[0];
+for (int i=1; i<n; i++) {
+	if (a[i].y < p.y || (a[i].y == p.y && a[i].x < p.x)) {
+		p = a[i];
+	}
+}
+sort(a.begin(), a.end(), cmp);
+vector<Point> hull;
+for (int i=0; i<n; i++) {
+	while (hull.size() >= 2 && ccw(hull[hull.size()-2], hull[hull.size()-1], a[i]) <= 0) {
+		hull.pop_back();
+	}
+	hull.push_back(a[i]);
+}
